@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+
+{% endblock title %}
+{% block content %}
+
+<div class="wrapper jumbotron my-3">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success my-3">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <a href="{{  object.get_update_url }}" class="btn btn-success btn-sm">Update</a>
+    <a href="{{  object.get_delete_url }}" class="btn btn-danger btn-sm">Delete</a>
+    <br><br>
+    <h2 class="display-6">{{ object.title }}</h2>
+    <img src="{{ object.image.url }}" class="image_in_list" alt="">
+    <p>{{ object.content|linebreaks }}</p>
+</div>
+
+{% endblock content %}

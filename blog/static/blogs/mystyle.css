@@ -1,0 +1,52 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(250, 250, 250);
+}
+
+.wrapper{
+    padding: 12px;
+    background-color: #f3f3f3;
+}
+
+.image_in_list{
+    width: 100%;
+    border-radius: 5px;
+}
+
+.sign-up-form{
+    width: 35%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sign-up-form{
+    /* width: 45%; */
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+    /* padding: 5%; */
+    /* background-color: #f3f3f3; */
+}
+
+.sign-up-form ul {
+    display: none;
+}
+
+.alert ul{
+    list-style: none;
+    padding: 0;
+}
+
+.custom-login{
+    width: 40%;
+}
+
+.custom-login h2{
+    text-align: center;
+}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{% load humanize %}
+Home
+{% endblock title %}
+{% block content %}
+
+<div class="row">
+    <div class="col-3">
+        <div class="card my-3">
+            <div class="card-body">
+                <div class="card-title">
+                    <h5>Latest Posts</h5>
+                </div>
+                {% for blog in latest_post %}
+                <div class="card-title my-1"><small><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></small>
+                </div>
+                <small class="text-secondary">{{ blog.created_at|naturaltime }}</small>
+                {% if forloop.last %}
+                <div class="py-1"></div>
+                {% else %}
+                <div class="border-bottom py-1"></div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success my-2">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% for blog in queryset %}
+
+        <div class="card my-2" style="background-color:#fff;">
+            <div class="row p-3">
+                <div class="col-10">
+                    <h5><a href="{% url 'blog:blog_detail' blog.slug %}">{{ blog.title }}</a></h5>
+                    <small class="text-muted">Posted by Basir Payenda {{ blog.created_at|naturaltime }}</small>
+                    <div class="border-bottom my-1"></div>
+                    <p>{{ blog.content | linebreaks | truncatewords:25 }}
+                        <a href="{{ blog.get_absolute_url }}">(more)</a>
+                    </p>
+                    <!-- <a href="{% url 'blog:blog_detail' blog.slug %}">read more</a> -->
+                </div>
+                <div class="col-2">
+                    <img src="{{ blog.image.url }}" class="image_in_list" alt="">
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col-3">
+        <!-- search -->
+        <div class="card my-4">
+            <div class="card-body">
+                <div class="card-title">Search</div>
+                <form action="#" method="POST">
+                    <input type="text" class="form-control" name="q" placeholder="Search blogs">
+                    <button class="btn btn-submit my-3">Search</button>
+                </form>
+            </div>
+        </div>
+        <!-- About author -->
+        <div class="card">
+            <img src="{% static 'img/admin.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Author</h5>
+                <p class="card-text">I am a passionate software engineer. I write about Python, Django, JavaScript,
+                    HTML, CSS ...</p>
+                <a href="#" class="btn btn-primary">About</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+{% endblock content %}
