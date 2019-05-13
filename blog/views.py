@@ -14,7 +14,7 @@ class PostListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*kwargs)
-        context['latest_post'] = BlogPost.objects.order_by("-created_at")[:5]
+        context['latest_post'] = BlogPost.objects.order_by("-created_at")[:10]
         return context
 
 

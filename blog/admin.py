@@ -9,7 +9,7 @@ class BlogPostAdmin(admin.ModelAdmin):
     #     'image'
     # ]
 
-    fieldsets = ('title', {'fields': ['title', 'created_at']}), ('content', {
+    fieldsets = ('title', {'fields': ['title']}), ('content', {
         'fields': ['content', 'image']})
 
 

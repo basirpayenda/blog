@@ -16,7 +16,7 @@ Home
                 {% for blog in latest_post %}
                 <div class="card-title my-1"><small><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></small>
                 </div>
-                <small class="text-secondary">{{ blog.created_at|naturaltime }}</small>
+                <small class="text-secondary"> Posted {{ blog.created_at|naturaltime }}</small>
                 {% if forloop.last %}
                 <div class="py-1"></div>
                 {% else %}
@@ -38,16 +38,21 @@ Home
 
         <div class="card my-2" style="background-color:#fff;">
             <div class="row p-3">
-                <div class="col-10">
+                <div class="col-8">
                     <h5><a href="{% url 'blog:blog_detail' blog.slug %}">{{ blog.title }}</a></h5>
+                    {% if blog.created_at == blog.updated_at %}
                     <small class="text-muted">Posted by Basir Payenda {{ blog.created_at|naturaltime }}</small>
+                    {% else %}
+                    <small class="text-muted">Updated by Basir Payenda {{ blog.created_at|naturaltime }}</small>
+                    {% endif %}
                     <div class="border-bottom my-1"></div>
-                    <p>{{ blog.content | linebreaks | truncatewords:25 }}
+                    <p>{{ blog.content | linebreaks | truncatechars:150 }}
                         <a href="{{ blog.get_absolute_url }}">(more)</a>
                     </p>
                     <!-- <a href="{% url 'blog:blog_detail' blog.slug %}">read more</a> -->
                 </div>
-                <div class="col-2">
+                <div class="col-4">
+                    <br><br><br><br>
                     <img src="{{ blog.image.url }}" class="image_in_list" alt="">
                 </div>
             </div>
