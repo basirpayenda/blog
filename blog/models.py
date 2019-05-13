@@ -15,6 +15,10 @@ class BlogPost(models.Model):
         blank=True, null=True, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        # this will order elements on
+        ordering = ['-updated_at', '-created_at']
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(BlogPost, self).save(*args, **kwargs)

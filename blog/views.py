@@ -5,12 +5,15 @@ from .forms import BlogForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.utils import timezone
+from django.db import models
 
 
 class PostListView(ListView):
     queryset = BlogPost.objects.order_by('-created_at')
     template_name = "blogs/home.html"
     context_object_name = 'queryset'
+    ordering = ['-updated_at', '-created_at']
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*kwargs)

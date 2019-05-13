@@ -8,7 +8,7 @@ Home
 
 <div class="row">
     <div class="col-3">
-        <div class="card my-3">
+        <div class="card my-3 latest-post">
             <div class="card-body">
                 <div class="card-title">
                     <h5>Latest Posts</h5>
@@ -43,7 +43,7 @@ Home
                     {% if blog.created_at == blog.updated_at %}
                     <small class="text-muted">Posted by Basir Payenda {{ blog.created_at|naturaltime }}</small>
                     {% else %}
-                    <small class="text-muted">Updated by Basir Payenda {{ blog.created_at|naturaltime }}</small>
+                    <small class="text-muted">Updated by Basir Payenda {{ blog.updated_at|naturaltime }}</small>
                     {% endif %}
                     <div class="border-bottom my-1"></div>
                     <p>{{ blog.content | linebreaks | truncatechars:150 }}
@@ -52,8 +52,7 @@ Home
                     <!-- <a href="{% url 'blog:blog_detail' blog.slug %}">read more</a> -->
                 </div>
                 <div class="col-4">
-                    <br><br><br><br>
-                    <img src="{{ blog.image.url }}" class="image_in_list" alt="">
+                    <img src="{{ blog.image.url }}" class="image_in_list mt-5" alt="">
                 </div>
             </div>
 
