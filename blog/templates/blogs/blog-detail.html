@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block title %}
 
 {% endblock title %}
@@ -16,6 +17,11 @@
     <a href="{{  object.get_delete_url }}" class="btn btn-danger btn-sm">Delete</a>
     <br><br>
     <h2 class="display-6">{{ object.title }}</h2>
+    {% if object.created_at == object.updated_at %}
+    <small class="text-secondary">Posted {{ object.created_at|naturaltime }}</small><br> <br>
+    {% else %}
+    <small class="text-secondary">Updated {{ object.updated_at|naturaltime }}</small><br><br>
+    {% endif %}
     <img src="{{ object.image.url }}" class="image_in_list" alt="">
     <p>{{ object.content|linebreaks }}</p>
 </div>
