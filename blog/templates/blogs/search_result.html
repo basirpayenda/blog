@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load search_tags %}
+
+{% block style %}
+<style>
+    .highlight {
+        background-color: yellow;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container bg-light w-100">
+    <h2 class="display-6 border-bottom py-3">Results for <span id="search"> "{{ query }}"</span></h2>
+    {% for post in queryset %}
+    <div class="my-1">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"> <a class="link"
+                        href="{{ post.get_absolute_url }}">{{ post.title|highlight_search:query }}</a>
+                </h4>
+                <p>{{ post.content|truncatechars:150|highlight_search:query }}</p>
+            </div>
+
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

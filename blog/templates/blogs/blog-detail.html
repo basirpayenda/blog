@@ -13,9 +13,11 @@
     </div>
     {% endfor %}
     {% endif %}
-    <a href="{{  object.get_update_url }}" class="btn btn-success btn-sm">Update</a>
-    <a href="{{  object.get_delete_url }}" class="btn btn-danger btn-sm">Delete</a>
-    <br><br>
+    {% if object.author.username == user.username %}
+    <a href="{{  object.get_update_url }}" class="btn btn-success btn-sm p-1">Update</a>
+    <a href="{{  object.get_delete_url }}" class="btn btn-danger btn-sm p-1">Delete</a>
+    {% endif %}
+    <br>
     <h2 class="display-6">{{ object.title }}</h2>
     {% if object.created_at == object.updated_at %}
     <small class="text-secondary">Posted {{ object.created_at|naturaltime }}</small><br> <br>

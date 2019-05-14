@@ -2,7 +2,8 @@ from django.db import models
 from django.shortcuts import reverse
 from django.utils import timezone
 from django.utils.text import slugify
-# Create your models here.
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 
 
 class BlogPost(models.Model):
@@ -11,6 +12,8 @@ class BlogPost(models.Model):
     slug = models.SlugField(blank=True, unique=True)
     image = models.ImageField(default='default.jpg',
                               upload_to='posts/%Y/%m/%d')
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(
         blank=True, null=True, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

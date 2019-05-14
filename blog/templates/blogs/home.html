@@ -41,9 +41,11 @@ Home
                 <div class="col-8">
                     <h5><a href="{% url 'blog:blog_detail' blog.slug %}">{{ blog.title }}</a></h5>
                     {% if blog.created_at == blog.updated_at %}
-                    <small class="text-muted">Posted by Basir Payenda {{ blog.created_at|naturaltime }}</small>
+                    <small class="text-muted">Posted by {{ blog.author.username }}
+                        {{ blog.created_at|naturaltime }}</small>
                     {% else %}
-                    <small class="text-muted">Updated by Basir Payenda {{ blog.updated_at|naturaltime }}</small>
+                    <small class="text-muted">Updated by {{ blog.author.username }}
+                        {{ blog.updated_at|naturaltime }}</small>
                     {% endif %}
                     <div class="border-bottom my-1"></div>
                     <p>{{ blog.content | linebreaks | truncatechars:150 }}
@@ -63,13 +65,15 @@ Home
         <!-- search -->
         <div class="card my-4">
             <div class="card-body">
-                <div class="card-title">Search</div>
-                <form action="#" method="POST">
-                    <input type="text" class="form-control" name="q" placeholder="Search blogs">
-                    <button class="btn btn-submit my-3">Search</button>
+                <div class="card-title">Search blog</div>
+                <form action="{% url 'blog:search_blog' %}">
+                    {% csrf_token %}
+                    <input type="text" class="form-control" name="q" placeholder="What are you looking for?">
+                    <input type="submit" value="Search" class="btn btn-success btn-sm mt-3">
                 </form>
             </div>
         </div>
+
         <!-- About author -->
         <div class="card">
             <img src="{% static 'img/admin.jpg' %}" class="card-img-top" alt="...">

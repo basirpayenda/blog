@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import BlogPost
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .forms import BlogForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils import timezone
 from django.db import models
+from django.db.models import Q
 
 
 class PostListView(ListView):
@@ -36,6 +37,10 @@ class PostCreateView(SuccessMessageMixin, CreateView):
     fields = ['title', 'content', 'image']
     success_message = 'Post added successfully!'
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(PostCreateView, self).form_valid(form)
+
 
 class PostUpdateView(SuccessMessageMixin, UpdateView):
     model = BlogPost
@@ -61,3 +66,19 @@ class PostDeleteView(SuccessMessageMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super(PostDeleteView, self).delete(request, *args, **kwargs)
+
+
+class SearchView(View):
+    def get(self, request, *args, **kwargs):
+        queryset = BlogPost.objects.all()
+        query = request.GET.get('q')
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query)
+            ).distinct()
+        context = {
+            'queryset': queryset,
+            'query': query,
+        }
+        return render(request, 'blogs/search_result.html', context)
