@@ -5,27 +5,29 @@
 {% endblock title %}
 {% block content %}
 
-<div class="wrapper jumbotron my-3">
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-success my-3">
-        {{ message }}
+<div class="card my-3 w-75 mx-auto">
+    <div class="card-body">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success my-3">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% if object.author.username == user.username %}
+        <a href="{{  object.get_update_url }}" class="btn btn-success btn-sm p-1">Update</a>
+        <a href="{{  object.get_delete_url }}" class="btn btn-danger btn-sm p-1">Delete</a>
+        {% endif %}
+        <br>
+        <h2 class="display-6">{{ object.title }}</h2>
+        {% if object.created_at == object.updated_at %}
+        <small class="text-secondary">Posted {{ object.created_at|naturaltime }}</small><br> <br>
+        {% else %}
+        <small class="text-secondary">Updated {{ object.updated_at|naturaltime }}</small><br><br>
+        {% endif %}
+        <img src="{{ object.image.url }}" class="image_in_list" alt="">
+        <p>{{ object.content|linebreaks }}</p>
     </div>
-    {% endfor %}
-    {% endif %}
-    {% if object.author.username == user.username %}
-    <a href="{{  object.get_update_url }}" class="btn btn-success btn-sm p-1">Update</a>
-    <a href="{{  object.get_delete_url }}" class="btn btn-danger btn-sm p-1">Delete</a>
-    {% endif %}
-    <br>
-    <h2 class="display-6">{{ object.title }}</h2>
-    {% if object.created_at == object.updated_at %}
-    <small class="text-secondary">Posted {{ object.created_at|naturaltime }}</small><br> <br>
-    {% else %}
-    <small class="text-secondary">Updated {{ object.updated_at|naturaltime }}</small><br><br>
-    {% endif %}
-    <img src="{{ object.image.url }}" class="image_in_list" alt="">
-    <p>{{ object.content|linebreaks }}</p>
 </div>
-
+<br>
 {% endblock content %}

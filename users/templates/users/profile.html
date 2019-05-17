@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card profile mt-5">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-2">
+                <img class="profile-pic" src="{{ user.profile.image.url }}">
+            </div>
+            <div class="col-6">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-success my-3">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <h2 class="account-heading">{{ user.username }} </h2>
+
+                {% if user.profile.description == '' %}
+                <i class="fa fa-person"></i> <a href="{% url 'users:profile_update' %}"> Add
+                    description</a>
+                {% else %}
+                <small>
+                    <p class="text-secondary">{{ user.profile.description }}</p>
+                </small>
+                {% endif %}
+
+                <a href="{% url 'users:profile_update' %}" class="btn btn-outline-success">Update</a>
+
+            </div>
+            <div class="col-4">
+                <h4 class="border-bottom pb-2">Contacts:</h4>
+                <small class="text-secondary">
+                    {% if user.email != 'None' or user.email != '' %}
+                    <i class="fa fa-envelope"> </i> &nbsp; <input type="text" class="profile-email"
+                        value="{{ user.email }}">
+                    {% else %}
+                    <i class="fa fa-envelope"> </i> <a href="{% url 'users:profile_update' %}"> Add
+                        email</a>
+                    {% endif %}
+                </small><br>
+
+                <small class="text-secondary">
+                    {% if user.profile.facebook == '' %}
+                    <i class="fab fa-facebook"> </i> <a href="{% url 'users:profile_update' %}"> Add
+                        Facebook</a>
+                    {% else %}
+                    <i class="fab fa-facebook"> </i> &nbsp; <input type="text" class="profile-facebook"
+                        value="{{ user.profile.facebook }}">
+                    {% endif %}
+                </small><br>
+
+                <small class="text-secondary">
+                    {% if user.profile.whatsapp == '' %}
+                    <i class="fab fa-whatsapp"> </i> <a href="{% url 'users:profile_update' %}">
+                        Add Whatsapp</a>
+                    {% else %}
+                    <i class="fab fa-whatsapp"> </i> {{ user.profile.whatsapp }}
+                    {% endif %}
+                </small><br>
+                <!-- <small>
+                    <i class="fab fa-facebook"> </i> {{ user.profile.facebook }}
+                </small><br>
+                <small>
+                    <i class="fab fa-whatsapp"> </i> {{ user.profile.whatsapp }}
+                </small> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}

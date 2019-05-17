@@ -8,6 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.utils import timezone
 from django.db import models
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 
 class PostListView(ListView):
@@ -15,6 +16,7 @@ class PostListView(ListView):
     template_name = "blogs/home.html"
     context_object_name = 'queryset'
     ordering = ['-updated_at', '-created_at']
+    paginate_by = 3
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*kwargs)
@@ -82,3 +84,25 @@ class SearchView(View):
             'query': query,
         }
         return render(request, 'blogs/search_result.html', context)
+
+
+# ! Function Based View for UserPost
+# def user_posts(request, username):
+#     queryset = BlogPost.objects.filter(author__username=username)
+#     return render(request, 'blogs/user-posts.html', {'queryset': queryset, 'username': username})
+
+
+class UserPost(ListView):
+    model = BlogPost
+    template_name = 'blogs/user-posts.html'
+    paginate_by = 3
+    context_object_name = 'queryset'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return BlogPost.objects.filter(author=user).order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['username'] = self.kwargs.get('username')
+        return context

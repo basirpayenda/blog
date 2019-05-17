@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Update Profile
+{% endblock title %}
+
+{% block style %}
+
+<style>
+    footer {
+        display: none;
+    }
+</style>
+{% endblock style %}
+
+
+{% block content %}
+
+<div class="wrapper w-75 my-3 profile">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success my-3">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="card p-4">
+        <!-- <h2 class="dispaly-5">Update Information</h2> -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="border-bottom pb-3 mb-3">Update Profile</legend>
+                {{ user_form|crispy }}
+                {{ profile_form|crispy }}
+            </fieldset>
+            <button class="btn btn-danger" type="submit">Update</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

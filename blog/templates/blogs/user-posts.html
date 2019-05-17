@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{% load humanize %}
+Home
+{% endblock title %}
+{% block content %}
+
+<div class="row">
+    <div class="col-8 mx-auto">
+        <div class="card profile mt-5">
+            <div class="card-body">
+                {% for blog in queryset %}
+                {% if forloop.first %}
+                <div class="row">
+                    <div class="col-2">
+                        <img class="profile-pic" src="{{ blog.author.profile.image.url }}">
+                    </div>
+                    <div class="col-6">
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-success my-3">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+
+                        <h2 class="account-heading" style="font-weight:400;">{{ blog.author.username|title }} </h2>
+
+                        {% if blog.author.profile.description == '' %}
+                        <span></span>
+                        {% else %}
+                        <small>
+                            <p class="text-secondary">{{ blog.author.profile.description }}</p>
+                        </small>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-4">
+                        <h4 class="border-bottom pb-2">Contacts:</h4>
+                        <small class="text-secondary">
+                            {% if blog.author.email != 'None' or user.email != '' %}
+                            <i class="fa fa-envelope"> </i> &nbsp; <input type="text" class="profile-email"
+                                value="{{ blog.author.email }}">
+                            {% else %}
+                            <span></span>
+                            {% endif %}
+                        </small><br>
+
+
+                        <small class="text-secondary">
+                            {% if blog.author.profile.facebook == '' %}
+                            <span></span>
+                            {% else %}
+                            <i class="fab fa-facebook"> </i> &nbsp; <input class="profile-facebook" type="text"
+                                value="{{ blog.author.profile.facebook }}">
+                            {% endif %}
+                        </small><br>
+
+                        <small class="text-secondary">
+                            {% if blog.author.profile.whatsapp == '' %}
+                            <span></span>
+                            {% else %}
+                            <i class="fab fa-whatsapp"> </i> {{ blog.author.profile.whatsapp }}
+                            {% endif %}
+                        </small><br>
+                    </div>
+                </div>
+                {% else %}
+                <span></span>
+                {% endif %}
+
+                {% endfor %}
+            </div>
+        </div>
+        <!-- ! User Posts Here! -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success my-2">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <br>
+        <div class="alert alert-secondary">
+            {{ username|title }} posted {{ page_obj.paginator.count }} post(s)
+        </div>
+
+
+        {% for blog in queryset %}
+        <div class="card my-2" style="background-color:#fff;">
+            <div class="row p-3">
+                <div class="col-8">
+                    <h5><a href="{% url 'blog:blog_detail' blog.slug %}">{{ blog.title }}</a></h5>
+                    {% if blog.created_at == blog.updated_at %}
+                    <small class="text-muted"> <a
+                            href="{% url 'blog:user_posts' blog.author.username %}">{{ blog.author.username }}</a>
+                        {{ blog.created_at|naturaltime }}</small>
+                    {% else %}
+                    <small class="text-muted">Updated by {{ blog.author.username }}
+                        {{ blog.updated_at|naturaltime }}</small>
+                    {% endif %}
+                    <div class="border-bottom my-1"></div>
+                    <p>{{ blog.content | linebreaks | truncatechars:150 }}
+                        <a href="{{ blog.get_absolute_url }}">(more)</a>
+                    </p>
+                    <!-- <a href="{% url 'blog:blog_detail' blog.slug %}">read more</a> -->
+                </div>
+                <div class="col-4">
+                    <img src="{{ blog.image.url }}" class="image_in_list mt-5" alt="">
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+        <br> <br>
+        {% if is_paginated %}
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a href="?page=1" class="page-link">First</a></li>
+            <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+            </li>
+            {% endif %}
+
+            {% for page_num in page_obj.paginator.page_range %}
+            {% if page_num == page_obj.number %}
+            <li class="page-item active"><a href="?page={{ page_num }}" class="page-link">{{ page_num }}</a></li>
+            {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3'  %}
+            <li class="page-item"><a href="?page={{ page_num }}" class="page-link">{{ page_num }}</a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next  %}
+            <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+            <li class="page-item"><a href="?page={{ page_obj.paginator.page_nums }}" class="page-link">Last</a>
+                {% endif %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

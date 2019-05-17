@@ -16,6 +16,14 @@
 
     <div class="container">
         <div class="sign-up-form">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success my-3">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
             <form action="." method="POST">
                 <h2 class="display-4">Sign up form</h2>
 
