@@ -5,8 +5,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto navbar-default">
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'blog:home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
@@ -25,14 +25,17 @@
             </div>
 
             {% else %}
-            <li class="nav-item dropdown" style="position:absolute; right:5%;">
+            <li class="nav-item dropdown mb-5" style="position:absolute; right:5%;">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
+                    <img src="{{ user.profile.image.url }}"
+                        style="width:35px; height:35px; border-radius:50%; border:1px solid #f3f3f3; padding:2px;"
+                        alt="{{ user.username }} img" class="mb-1">
                     {{ user.username }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'users:profile' %}">Profile</a>
-                    <a class="dropdown-item" href="#">Change Password</a>
+                    <a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'users:logout' %}">Log out</a>
                 </div>

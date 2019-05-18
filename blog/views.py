@@ -35,8 +35,8 @@ class PostDetailView(DetailView):
 
 class PostCreateView(SuccessMessageMixin, CreateView):
     model = BlogPost
+    form_class = BlogForm
     template_name = 'blogs/blog-form.html'
-    fields = ['title', 'content', 'image']
     success_message = 'Post added successfully!'
 
     def form_valid(self, form):
@@ -46,8 +46,8 @@ class PostCreateView(SuccessMessageMixin, CreateView):
 
 class PostUpdateView(SuccessMessageMixin, UpdateView):
     model = BlogPost
+    form_class = BlogForm
     template_name = 'blogs/blog-update.html'
-    fields = ['title', 'content', 'image']
     success_message = 'Post updated successfully!'
 
     def get_object(self):
@@ -97,6 +97,7 @@ class UserPost(ListView):
     template_name = 'blogs/user-posts.html'
     paginate_by = 3
     context_object_name = 'queryset'
+    ordering = ['-updated_at', '-created_at']
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))

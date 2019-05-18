@@ -15,29 +15,31 @@
 <body>
 
     <div class="container">
-        <div class="custom-login mx-auto mt-5">
-            {% if messages %}
-            <div class="alert alert-success">
-                {% for message in messages %}
-                {{  message }}
-                {% endfor %}
+        <div class="centered-div">
+            <div class="card" style="position:relative">
+                <img src="{% static 'img/default.jpg' %}" class="user-logo" alt="user logo">
+                <div class="card-body">
+                    {% if messages %}
+                    <div class="alert alert-success">
+                        {% for message in messages %}
+                        {{  message }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <h1 class="card-title border-bottom pb-3" style="font-weight:400;">Login</h1>
+                    <form action="." method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy  }}
+                        <input type="submit" class="btn btn-success btn-block" value="submit">
+                    </form>
+                    <hr>
+                    <small class="text-secondary"> Need an account ? <a
+                            href="{% url 'users:signup' %}">Signup</a><br></small>
+                    <small class="text-secondary"> Forgot password ? <a href="{% url 'password_reset' %}">Reset
+                            password</a></small>
+                </div>
             </div>
-            {% endif %}
-            <!-- {% if form.non_field_errors %}
-            <div class="alert-error" role="alert">
-                {% for error in form.non_field_errors %}
-                <p {% if forloop.last %} class="mb-0" {% endif %}> {{ error }}</p>
-                {% endfor %}
-            </div>
-            {% endif %} -->
-            <form action="." method="POST">
-                <h2 class="display-4">Login form</h2>
-                {% csrf_token %}
-                {{ form|crispy  }}
-                <input type="submit" class="btn btn-success btn-block" value="submit">
-            </form>
         </div>
-        <a href="{% url 'users:signup' %}">Signup</a>
     </div>
 </body>
 

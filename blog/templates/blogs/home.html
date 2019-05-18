@@ -35,25 +35,37 @@ Home
         {% endfor %}
         {% endif %}
         {% for blog in queryset %}
-
+        <!-- ! main posts here -->
         <div class="card my-2" style="background-color:#fff;">
             <div class="row p-3">
+                <!-- ! Meta data of post -->
+                <div class="row">
+                    <div class="col-2">
+                        <img src="{{ blog.author.profile.image.url }}" alt="{{ blog.author.profile.image.url }}"
+                            class="home-user-pic mx-3">
+                    </div>
+                    <div class="col-10">
+                        <h5 style="margin-bottom:0px;"><a
+                                href="{% url 'blog:blog_detail' blog.slug %}">{{ blog.title }}</a></h5>
+                        {% if blog.created_at == blog.updated_at %}
+                        <small class="text-muted">Author: <a
+                                href="{% url 'blog:user_posts' blog.author.username %}">{{ blog.author.username }}</a>,
+                            posted {{ blog.created_at|naturaltime }}</small>
+                        {% else %}
+                        <small class="text-muted">Author: <a
+                                href="{% url 'blog:user_posts' blog.author.username %}">{{ blog.author.username }}</a>,
+                            updated {{ blog.updated_at|naturaltime }}</small>
+                        {% endif %}
+                    </div>
+                </div>
                 <div class="col-8">
-                    <h5><a href="{% url 'blog:blog_detail' blog.slug %}">{{ blog.title }}</a></h5>
-                    {% if blog.created_at == blog.updated_at %}
-                    <small class="text-muted">Author: <a
-                            href="{% url 'blog:user_posts' blog.author.username %}">{{ blog.author.username }}</a>,
-                        {{ blog.created_at|naturaltime }}</small>
-                    {% else %}
-                    <small class="text-muted">Updated by <a
-                            href="{% url 'blog:user_posts' blog.author.username %}">{{ blog.author.username }}</a>
-                        {{ blog.updated_at|naturaltime }}</small>
-                    {% endif %}
+                    <!--  ! body of post -->
                     <div class="border-bottom my-1"></div>
-                    <p>{{ blog.content | linebreaks | truncatechars:150 }}
+                    <p> {{ blog.content |safe |truncatechars:250  }}
                         <a href="{{ blog.get_absolute_url }}">(more)</a>
                     </p>
                     <!-- <a href="{% url 'blog:blog_detail' blog.slug %}">read more</a> -->
+
                 </div>
                 <div class="col-4">
                     <img src="{{ blog.image.url }}" class="image_in_list mt-5" alt="">
@@ -61,6 +73,8 @@ Home
             </div>
 
         </div>
+        <!-- ! end of main posts here -->
+
         {% endfor %}
 
         {% if is_paginated %}

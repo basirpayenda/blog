@@ -15,22 +15,21 @@
 <body>
 
     <div class="container">
-        <div class="sign-up-form">
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-success my-3">
-                {{ message }}
+        <div class="centered-div sign-up-form">
+            <div class="card" style="position:relative">
+                <img src="{% static 'img/default.jpg' %}" class="user-logo" alt="user logo">
+                <div class="card-body">
+                    <h1 class="card-title border-bottom pb-3" style="font-weight:400;">Create an account</h1>
+                    <form action="." method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy  }}
+                        <input type="submit" class="btn btn-success btn-block" value="submit">
+                    </form>
+                    <hr>
+                    <small class="text-secondary"> Already have an account ? <a
+                            href="{% url 'users:login' %}">Login</a><br></small>
+                </div>
             </div>
-            {% endfor %}
-            {% endif %}
-
-            <form action="." method="POST">
-                <h2 class="display-4">Sign up form</h2>
-
-                {% csrf_token %}
-                {{ form|crispy  }}
-                <input type="submit" class="btn btn-success btn-block" value="submit">
-            </form>
         </div>
     </div>
 </body>

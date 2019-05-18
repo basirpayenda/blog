@@ -20,11 +20,39 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
-    path('users/', include('users.urls'))
+    path('users/', include('users.urls')),
+    path('tinymce/', include('tinymce.urls')),
+
+    path('settings/change-password/', auth_views.PasswordChangeView.as_view(
+        template_name='users/change-password.html'), name='password_change'),
+
+    path('settings/change-password-done/', auth_views.PasswordChangeDoneView.as_view(
+        template_name='users/change-password-done.html'), name='password_change_done'),
+
+    path('password-reset/',
+         auth_views.PasswordResetView.as_view(template_name='users/password-reset.html',
+                                              email_template_name='users/password-reset-email.html',
+                                              subject_template_name='users/password-reset-subject.txt'),
+         name='password_reset'),
+
+    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(
+        template_name='users/password-reset-done.html'),
+        name='password_reset_done'),
+
+    path('password-reset-confirm/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(
+             template_name='users/password-reset-confirm.html'),
+         name='password_reset_confirm'),
+
+    path('password-reset-complete', auth_views.PasswordResetCompleteView.as_view(
+        template_name='users/password-reset-complete.html'),
+        name='password_reset_complete'),
+
 ]
 
 if settings.DEBUG:

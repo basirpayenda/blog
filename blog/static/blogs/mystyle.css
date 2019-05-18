@@ -31,17 +31,12 @@ footer{
     border-radius: 5px;
 }
 
-.sign-up-form{
-    width: 35%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-
 .sign-up-form ul {
     display: none;
+}
+
+.form-group{
+    margin: 7px 0;
 }
 
 .alert ul{
@@ -71,4 +66,47 @@ footer{
     border-top: none;
     border-right: none;
     border-left: none;
+}
+
+.centered-div{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform:translate(-50%, -50%);
+    width: 35%;
+}
+
+.user-logo{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    border: 1px solid #bbb;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color:#f3f3f3;
+}
+
+/* ! home.html */
+.home-user-pic{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* ! post-detail.html */
+.detail-user-pic{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-left: 35px;
+    margin-bottom: 15px;
+}
+
+/* ! blog-detail.html */
+.note{
+    background-color: bisque;
+    padding: 12px;
+    border-left: 4px solid rgb(206, 175, 137);
 }
